@@ -43,9 +43,9 @@ public class AuthService {
       final String refreshToken = this.jwtUtil.generateRefreshToken(loginRequest.getUsername());
 
       return Map.of(
-        "access_token", accessToken,
-        "refresh_token", refreshToken);
-
+          "access_token", accessToken,
+          "refresh_token", refreshToken);
+      
     } else {
       throw new BadCredentialsException("Username or password is invalid");
     }

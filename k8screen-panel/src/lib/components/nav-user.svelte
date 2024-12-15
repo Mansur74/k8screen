@@ -4,7 +4,7 @@
 	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
 	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
 	import { useSidebar } from "$lib/components/ui/sidebar/index.js";
-    import { authAPI } from "$lib/service/auth-service";
+  import { authAPI } from "$lib/service/auth-service";
   import { clearTokens } from "$lib/service/storage-manager";
 	import BadgeCheck from "lucide-svelte/icons/badge-check";
 	import Bell from "lucide-svelte/icons/bell";
@@ -19,7 +19,7 @@
 		authAPI.logout()
 		.then(() => {
 			clearTokens();
-			goto("/login");
+			window.location.href="/login";
 		});
 	}
 
@@ -91,7 +91,7 @@
 				<DropdownMenu.Item>
 					<!-- <LogOut />
 					Log out -->
-					<input class="w-full text-start" value="Log out" type="button" onclick={() => { logout() }}>
+					<button class="w-full text-start" type="button" onclick={() => { logout() }}>Log out</button>
 				</DropdownMenu.Item>
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>

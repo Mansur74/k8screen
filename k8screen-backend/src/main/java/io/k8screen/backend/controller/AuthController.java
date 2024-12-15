@@ -21,9 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
   private final @NotNull AuthService authService;
+  private final @NotNull UserService userService;
+  private final @NotNull JwtUtil jwtUtil;
 
-  public AuthController(final @NotNull AuthService authService) {
+  public AuthController(
+      final @NotNull AuthService authService,
+      final @NotNull JwtUtil jwtUtil,
+      final @NotNull UserService userService) {
     this.authService = authService;
+    this.jwtUtil = jwtUtil;
+    this.userService = userService;
   }
 
   @PostMapping("/login")
@@ -31,6 +38,23 @@ public class AuthController {
       @Valid @RequestBody final UserLoginReq loginRequest) {
     return ResponseEntity.status(HttpStatus.OK).body(this.authService.login(loginRequest));
   }
+
+  /*
+  @PostMapping("/google/tokens")
+  public ResponseEntity<String> loginGoogle(final @RequestBody @NotNull GoogleCredentials credentials) {
+    RestTemplate restTemplate = new RestTemplate();
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+    HttpEntity<GoogleCredentials> entity = new HttpEntity<>(credentials, headers);
+
+    final var response = restTemplate.exchange("https://oauth2.googleapis.com/token", HttpMethod.POST, entity, Object.class);
+    final var body = response.getBody();
+
+    return ResponseEntity.status(HttpStatus.OK).body("");
+
+  }
+  */
 
   @PostMapping("/register")
   public ResponseEntity<Map<String, String>> register(@Valid @RequestBody final UserForm userForm) {
@@ -40,7 +64,6 @@ public class AuthController {
   @GetMapping("/access-token")
   public ResponseEntity<Map<String, String>> getAccessToken(
       @RequestHeader("Refresh-Token") final @NotNull String header) {
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(this.authService.getAccessToken(header));
+    return ResponseEntity.status(HttpStatus.OK).body(this.authService.getAccessToken(header));
   }
 }

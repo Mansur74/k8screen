@@ -8,6 +8,7 @@ import { isTokenExpired } from "./token-decoder";
 export const authAPI = {
   register: async (body: UserForm): Promise<{ access_token: string, refresh_token: string }> => {
     const url = `${SPRING_BASE_URL}/api/auth/register`;
+    console.log(body)
     return await (await applyPostRequest(url, JSON.stringify(body))).json();
   },
 
@@ -16,6 +17,12 @@ export const authAPI = {
     return await (await applyPostRequest(url, JSON.stringify(body))).json();
   },
 
+
+  loginGoogle: async (): Promise<{ access_token: string, refresh_token: string }> => {
+    const url = `${SPRING_BASE_URL}/api/auth/login/google`;
+    return await (await applyGetRequest(url)).json();
+  },
+  
   logout: async (): Promise<string> => {
     const url = `${SPRING_BASE_URL}/api/auth/logout`;
     return await (await applyGetRequest(url)).text();
