@@ -1,4 +1,4 @@
-package io.k8screen.backend.config;
+package io.k8screen.backend.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.jetbrains.annotations.NotNull;

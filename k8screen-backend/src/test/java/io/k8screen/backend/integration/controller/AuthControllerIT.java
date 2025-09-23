@@ -2,9 +2,9 @@ package io.k8screen.backend.integration.controller;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-import io.k8screen.backend.config.TemporaryTokenStore;
 import io.k8screen.backend.result.DataResult;
 import io.k8screen.backend.result.Result;
+import io.k8screen.backend.security.TemporaryTokenStore;
 import io.k8screen.backend.user.dto.AuthResponse;
 import io.k8screen.backend.user.dto.UserLogin;
 import io.k8screen.backend.user.dto.UserRegister;

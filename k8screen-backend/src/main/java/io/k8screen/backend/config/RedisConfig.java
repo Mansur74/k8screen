@@ -18,7 +18,7 @@ public class RedisConfig {
   private static final long ENTRY_TTL = 30L;
 
   @Bean
-  public @NotNull RedisCacheManager cacheManager(
+  public @NotNull RedisCacheManager redisCacheManager(
       final @NotNull RedisConnectionFactory redisConnectionFactory) {
     final RedisCacheConfiguration config =
         RedisCacheConfiguration.defaultCacheConfig()

@@ -1,4 +1,4 @@
-package io.k8screen.backend.config;
+package io.k8screen.backend.security;
 
 import io.k8screen.backend.user.dto.AuthResponse;
 import java.util.Map;
