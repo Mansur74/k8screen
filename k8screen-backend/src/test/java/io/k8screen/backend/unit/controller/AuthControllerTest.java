@@ -6,10 +6,10 @@ import static org.mockito.Mockito.when;
 
 import io.k8screen.backend.auth.AuthController;
 import io.k8screen.backend.auth.AuthService;
-import io.k8screen.backend.config.TemporaryTokenStore;
 import io.k8screen.backend.result.DataResult;
 import io.k8screen.backend.result.ResponseFactory;
 import io.k8screen.backend.result.Result;
+import io.k8screen.backend.security.TemporaryTokenStore;
 import io.k8screen.backend.user.dto.AuthResponse;
 import io.k8screen.backend.user.dto.UserLogin;
 import io.k8screen.backend.user.dto.UserRegister;

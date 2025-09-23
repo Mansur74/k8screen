@@ -1,4 +1,4 @@
-package io.k8screen.backend.config;
+package io.k8screen.backend.security;
 
 import io.k8screen.backend.result.ResponseFactory;
 import io.k8screen.backend.util.JwtAuthenticationFilter;
@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -29,22 +31,13 @@ public class SecurityConfig {
   @Value("${k8screen.success-url}")
   private String apiSuccessURL;
 
-  private final @NotNull JwtUtil jwtUtil;
-  private final @NotNull ResponseFactory responseFactory;
-  private final @NotNull OAuthSuccessHandler oAuthSuccessHandler;
-
-  public SecurityConfig(
-      final @NotNull JwtUtil jwtUtil,
-      final @NotNull ResponseFactory responseFactory,
-      final @NotNull OAuthSuccessHandler oAuthSuccessHandler) {
-    this.jwtUtil = jwtUtil;
-    this.responseFactory = responseFactory;
-    this.oAuthSuccessHandler = oAuthSuccessHandler;
-  }
-
   @Bean
   public SecurityFilterChain securityFilterChain(
-      final @NotNull HttpSecurity http, final @NotNull ClientRegistrationRepository repo)
+      final @NotNull HttpSecurity http,
+      final @NotNull JwtUtil jwtUtil,
+      final @NotNull ResponseFactory responseFactory,
+      final @NotNull OAuthSuccessHandler oAuthSuccessHandler,
+      final @NotNull ClientRegistrationRepository repo)
       throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .cors(this::cors)
@@ -53,14 +46,19 @@ public class SecurityConfig {
         .oauth2Login(
             oauth2 ->
                 oauth2
-                    .successHandler(this.oAuthSuccessHandler)
+                    .successHandler(oAuthSuccessHandler)
                     .authorizationEndpoint(
                         auth -> auth.authorizationRequestResolver(new AuthRequestResolver(repo))))
         .addFilterBefore(
-            new JwtAuthenticationFilter(this.jwtUtil, this.responseFactory),
+            new JwtAuthenticationFilter(jwtUtil, responseFactory),
             UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
+  }
+
+  @Bean
+  public @NotNull PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
   }
 
   private void cors(final @NotNull CorsConfigurer<HttpSecurity> corsConfigurer) {

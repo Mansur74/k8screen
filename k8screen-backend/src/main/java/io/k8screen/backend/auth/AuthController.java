@@ -4,10 +4,10 @@ import static io.k8screen.backend.util.Constant.REFRESH_TOKEN;
 
 import io.k8screen.backend.auth.dto.RecoverPasswordForm;
 import io.k8screen.backend.auth.dto.ResetPasswordForm;
-import io.k8screen.backend.config.TemporaryTokenStore;
 import io.k8screen.backend.mail.EmailForm;
 import io.k8screen.backend.result.ResponseFactory;
 import io.k8screen.backend.result.Result;
+import io.k8screen.backend.security.TemporaryTokenStore;
 import io.k8screen.backend.user.dto.AuthResponse;
 import io.k8screen.backend.user.dto.UserDetails;
 import io.k8screen.backend.user.dto.UserLogin;
